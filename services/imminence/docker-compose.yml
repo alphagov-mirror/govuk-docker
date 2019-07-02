@@ -1,0 +1,38 @@
+version: '3.7'
+
+x-imminence: &imminence
+  build:
+    context: .
+    dockerfile: services/imminence/Dockerfile
+  image: imminence
+  privileged: true
+  volumes:
+    - ..:/govuk:delegated
+    - bundle:/usr/local/bundle
+    - home:/home/build
+  working_dir: /govuk/imminence
+
+services:
+  imminence-default:
+    <<: *imminence
+    privileged: true
+    depends_on:
+      - mongo
+
+    environment:
+      MONGODB_URI: "mongodb://mongo/imminence-development"
+      TEST_MONGODB_URI: "mongodb://mongo/imminence-test"
+
+  imminence-backend:
+    <<: *imminence
+    depends_on:
+      - mongo
+      - nginx-proxy
+    environment:
+      MONGODB_URI: "mongodb://mongo/imminence-development"
+      TEST_MONGODB_URI: "mongodb://mongo/imminence-test"
+      VIRTUAL_HOST: imminence.dev.gov.uk
+      HOST: 0.0.0.0
+    ports:
+      - "3000"
+    command: bin/rails s -P /tmp/rails.pid

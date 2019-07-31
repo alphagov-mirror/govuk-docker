@@ -127,6 +127,28 @@ describe GovukDocker::CLI do
     end
   end
 
+  describe "doctor" do
+    let(:command) { "doctor" }
+
+    context "without a fix argument" do
+      it "runs a checkup of all the services" do
+        expect(GovukDocker::Commands::Doctor).to receive(:new).and_return(command_double)
+        expect(command_double).to receive(:call).with(nil)
+        subject
+      end
+    end
+
+    context "with a fix argument" do
+      let(:args) { %w(fix) }
+
+      it "runs a checkup of all the services and attempts to fix problems" do
+        expect(GovukDocker::Commands::Doctor).to receive(:new).and_return(command_double)
+        expect(command_double).to receive(:call).with("fix")
+        subject
+      end
+    end
+  end
+
   describe "build" do
     let(:command) { "build" }
 

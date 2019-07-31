@@ -19,6 +19,30 @@ require_relative "../lib/govuk_docker"
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
+
+  # This allows us to capture the stdout and test more easily the messages we
+  # sent to it. Instead of having to test the entire output, we can test for the
+  # inclusion of the part we care about.
+  # Instead of:
+  # expect { subject.call(arg) }.to output(entire_lengthy_output_message).to_stdout
+  # We can do:
+  # expect(capture{ subject.call(arg) }[:stdout]).to include(partial_output_message)
+  # See https://gist.github.com/herrphon/2d2ebbf23c86a10aa955
+  def capture(&block)
+    begin
+      $stdout = StringIO.new
+      $stderr = StringIO.new
+      yield
+      result = {}
+      result[:stdout] = $stdout.string
+      result[:stderr] = $stderr.string
+    ensure
+      $stdout = STDOUT
+      $stderr = STDERR
+    end
+    result
+  end
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.

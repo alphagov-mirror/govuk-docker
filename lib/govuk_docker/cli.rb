@@ -5,8 +5,7 @@ require_relative "./commands/compose"
 require_relative "./commands/prune"
 require_relative "./commands/run"
 require_relative "./commands/startup"
-require_relative "./doctor/doctor"
-require_relative "./doctor/checkup"
+require_relative "./commands/doctor"
 require_relative "./setup/dnsmasq"
 require_relative "./setup/homebrew_dependencies"
 require_relative "./setup/repo"
@@ -55,32 +54,9 @@ class GovukDocker::CLI < Thor
     GovukDocker::Commands::Compose.new(options).call(args)
   end
 
-  desc "doctor", "Various tests to help diagnose issues when running `govuk-docker`"
-  def doctor
-    puts "Checking govuk-docker"
-    puts GovukDocker::Doctor::Checkup.new(
-      service_name: "govuk-docker",
-      checkups: %i(up_to_date),
-      messages: GovukDocker::Doctor.messages[:govuk_docker],
-    ).call
-    puts "\r\nChecking dnsmasq"
-    puts GovukDocker::Doctor::Checkup.new(
-      service_name: "dnsmasq",
-      checkups: %i(installed running dnsmasq_resolver running_as_different_user),
-      messages: GovukDocker::Doctor.messages[:dnsmasq],
-    ).call
-    puts "\r\nChecking docker"
-    puts GovukDocker::Doctor::Checkup.new(
-      service_name: "docker",
-      checkups: %i(installed running),
-      messages: GovukDocker::Doctor.messages[:docker],
-    ).call
-    puts "\r\nChecking docker-compose"
-    puts GovukDocker::Doctor::Checkup.new(
-      service_name: "docker-compose",
-      checkups: %i(installed),
-      messages: GovukDocker::Doctor.messages[:docker_compose],
-    ).call
+  desc "doctor [FIX]", "Various tests to help diagnose issues when running `govuk-docker`. "
+  def doctor(fix = nil)
+    GovukDocker::Commands::Doctor.new(options).call(fix)
   end
 
   desc "prune", "Remove all docker containers, volumes and images"

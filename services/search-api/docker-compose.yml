@@ -5,6 +5,14 @@ x-search-api: &search-api
     context: .
     dockerfile: Dockerfile.govuk-base
   image: search-api
+  entrypoint:
+    - dockerize
+    - -wait
+    - http://elasticsearch5:9200
+    - -wait
+    - http://elasticsearch6:9200
+    - -timeout
+    - 30s
   volumes:
     - ${GOVUK_ROOT_DIR:-~/govuk}:/govuk:delegated
     - home:/home/build

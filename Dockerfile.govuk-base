@@ -11,6 +11,11 @@ RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.d
    apt install -y ./google-chrome*.deb && \
     rm ./google-chrome*.deb
 
+ENV DOCKERIZE_VERSION v0.6.1
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+
 # Install node / yarn
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -

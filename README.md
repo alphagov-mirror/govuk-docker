@@ -110,7 +110,8 @@ The following apps are supported by govuk-docker to some extent.
    - ⚠  collections
       * You will need to [populate the Content Store database](#mongodb) or run the live stack in order for it to work locally.
       * To view topic pages locally you still need to use the live stack as they rely on Elasticsearch data which we are yet to be able to import.
-   - ✅ collections-publisher
+   - ⚠ collections-publisher
+      * 'Checking for broken links' in step by step requires link-checker-api to be started manually in another process (despite collections-publisher starting it - see link-checker-api below).
    - ⚠ content-data-admin
       * **TODO: Missing support for a webserver stack**
    - ✅ content-publisher

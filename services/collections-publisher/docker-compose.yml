@@ -55,4 +55,6 @@ services:
   collections-publisher-app-e2e:
     <<: *collections-publisher-app
     depends_on:
+      - link-checker-api-app
+      - nginx-proxy-app
       - collections-publisher-worker

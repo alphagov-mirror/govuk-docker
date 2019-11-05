@@ -25,6 +25,7 @@ services:
     <<: *router
     depends_on:
       - mongo
+      - nginx-proxy-app
     ports:
       - "8080"
       - "3055"

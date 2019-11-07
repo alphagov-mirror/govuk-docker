@@ -6,6 +6,7 @@ node {
   govuk.buildProject(
     skipDeployToIntegration: true,
     rubyLintDiff: false,
+    sassLint: false,
     overrideTestTask: {
       stage("Run tests") {
         govuk.withStatsdTiming("test_task") {

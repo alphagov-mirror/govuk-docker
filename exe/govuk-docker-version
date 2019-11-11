@@ -1,0 +1,23 @@
+#! /usr/bin/env bash
+
+VERSION=0.0.1
+LOCAL_VERSION=$(cat .version 2>/dev/null)
+
+if grep -xsq $VERSION .version; then
+  echo $VERSION
+  exit
+fi
+
+>&2 echo -e "WARNING: The version of govuk-docker has changed.\n"
+
+if [ "$LOCAL_VERSION" ]; then
+  >&2 sed /"$LOCAL_VERSION"/q CHANGELOG.md
+else
+  >&2 cat CHANGELOG.md
+fi
+
+>&2 echo
+
+echo $VERSION > .version
+echo $VERSION
+exit 1

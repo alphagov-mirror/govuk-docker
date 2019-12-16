@@ -13,3 +13,14 @@ x-govuk-content-schemas: &govuk-content-schemas
 services:
   govuk-content-schemas-lite:
     <<: *govuk-content-schemas
+
+  govuk-content-schemas-app:
+    <<: *govuk-content-schemas
+    depends_on:
+      - nginx-proxy
+    environment:
+      VIRTUAL_HOST: govuk-content-schemas.dev.gov.uk
+      HOST: 0.0.0.0
+    expose:
+      - "4567"
+    command: bundle exec ruby app.rb

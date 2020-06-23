@@ -1,5 +1,9 @@
 version: '3.7'
 
+volumes:
+  content_publisher_tmp:
+  content_publisher_node_modules:
+
 x-content-publisher: &content-publisher
   build:
     context: .
@@ -9,7 +13,9 @@ x-content-publisher: &content-publisher
   tty: true
   volumes:
     - ${GOVUK_ROOT_DIR:-~/govuk}:/govuk:delegated
-    - home:/home/build
+    - root:/root
+    - content_publisher_tmp:/govuk/content-publisher/tmp
+    - content_publisher_node_modules:/govuk/content-publisher/node_modules
   working_dir: /govuk/content-publisher
 
 services:

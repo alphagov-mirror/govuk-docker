@@ -37,6 +37,7 @@ ENV PATH /rbenv/bin:$PATH
 # Install psql for 'rails dbconsole'
 RUN apt-get update -qq && apt-get install -y postgresql-client
 
-RUN useradd -m build
-ENV PATH /home/build/.rbenv/shims:${PATH}
-USER build
+ENV PATH /root/.rbenv/shims:${PATH}
+# RUN useradd -m build
+# ENV PATH /home/build/.rbenv/shims:${PATH}
+# USER build

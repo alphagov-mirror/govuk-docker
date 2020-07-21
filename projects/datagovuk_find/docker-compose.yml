@@ -1,0 +1,22 @@
+version: '3.7'
+
+x-datagovuk_find: &datagovuk_find
+  build:
+    context: .
+    dockerfile: Dockerfile.govuk-base
+  image: datagovuk_find
+  stdin_open: true
+  tty: true
+  volumes:
+    - ${GOVUK_ROOT_DIR:-~/govuk}:/govuk:delegated
+    - home:/home/build
+  working_dir: /govuk/datagovuk_find
+
+services:
+  datagovuk_find-lite:
+    <<: *datagovuk_find
+    privileged: true
+    depends_on:
+      - elasticsearch6
+    environment:
+      ES_HOST: "http://elasticsearch6:9200"

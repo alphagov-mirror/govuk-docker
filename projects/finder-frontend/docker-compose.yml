@@ -1,5 +1,8 @@
 version: '3.7'
 
+volumes:
+  finder-frontend-tmp:
+
 x-finder-frontend: &finder-frontend
   build:
     context: .
@@ -10,6 +13,7 @@ x-finder-frontend: &finder-frontend
   volumes:
     - ${GOVUK_ROOT_DIR:-~/govuk}:/govuk:delegated
     - root-home:/root
+    - finder-frontend-tmp:/govuk/finder-frontend/tmp
   working_dir: /govuk/finder-frontend
 
 services:

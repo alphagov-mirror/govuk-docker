@@ -21,3 +21,24 @@ services:
     environment:
       DATABASE_URL: "postgresql://postgres@postgres/content-data-admin"
       TEST_DATABASE_URL: "postgresql://postgres@postgres/content-data-admin-test"
+
+  content-data-admin-app: &content-data-admin-app
+    <<: *content-data-admin
+    depends_on:
+      - nginx-proxy
+      - content-data-api-app
+    expose:
+      - "3000"
+    command: bin/rails s --restart
+    environment:
+      VIRTUAL_HOST: content-data-admin.dev.gov.uk
+      HOST: 0.0.0.0
+
+  content-data-admin-app-live:
+    <<: *content-data-admin-app
+    environment:
+      GOVUK_WEBSITE_ROOT: https://www.gov.uk
+      PLEK_SERVICE_CONTENT_STORE_URI: https://www.gov.uk/api
+      PLEK_SERVICE_STATIC_URI: assets.publishing.service.gov.uk
+      VIRTUAL_HOST: content-data-admin.dev.gov.uk
+      HOST: 0.0.0.0

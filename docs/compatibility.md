@@ -61,7 +61,6 @@ These are repos that can be started as a some kind of process, such as a web app
    - ⚠ manuals-publisher
       * **TODO: Missing support for a webserver stack**
    - ✅ mapit
-      * **TODO: Data replication**
    - ✅ maslow
    - ✅ publisher
    - ✅ publishing-api

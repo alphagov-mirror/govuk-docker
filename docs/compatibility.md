@@ -46,8 +46,7 @@ These are repos that can be started as a some kind of process, such as a web app
       * **TODO: Missing support for running the worker**
    - ✅ govuk_publishing_components
    - ✅ govuk-developer-docs
-   - ⚠ hmrc-manuals-api
-      * **TODO: Missing support for a webserver stack**
+   - ✅ hmrc-manuals-api
    - ⚠ imminence
       * **TODO: Missing support for a webserver stack**
    - ✅ info-frontend
